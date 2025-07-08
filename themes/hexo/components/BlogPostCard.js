@@ -63,20 +63,17 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
             />
 
             {/* 图片封面 - 完全保留，不做修改 */}
+            {/* 图片封面 - aspect-ratio 版本 */}
             {showPageCover && (
-              // 关键修改在这里！
-              // 1. 我们给这个 div 一个固定的 aspect-ratio，或者一个固定的高度
-              // 2. 将 overflow-hidden 和圆角移到 Link 或 LazyImage 上
-              <div className='md:w-5/12 w-full'> {/* 容器只负责宽度 */}
-                <Link href={post?.href} className='h-full w-full'> {/* Link 标签也需要撑满 */}
+              <div className='md:w-5/12 w-full'>
+                <Link href={post?.href}>
                   <LazyImage
                     priority={index === 1}
                     alt={post?.title}
                     src={post?.pageCoverThumbnail}
-                    // h-56 是移动端的高度，md:h-full 是PC端的高度
-                    // object-cover 确保图片不变形
-                    // rounded-lg 给图片一个圆角
-                    className='h-56 md:h-full w-full object-cover rounded-lg' 
+                    // aspect-video 强制图片为16:9的视频比例
+                    // h-full 确保在 flex 容器中高度能被计算
+                    className='aspect-video h-full w-full object-cover rounded-lg'
                   />
                 </Link>
               </div>
