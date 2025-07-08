@@ -64,13 +64,19 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
 
             {/* 图片封面 - 完全保留，不做修改 */}
             {showPageCover && (
-              <div className='md:w-5/12 overflow-hidden rounded-r-2xl md:rounded-l-none md:rounded-r-2xl'> {/* 添加了圆角以匹配dock样式 */}
-                <Link href={post?.href}>
+              // 关键修改在这里！
+              // 1. 我们给这个 div 一个固定的 aspect-ratio，或者一个固定的高度
+              // 2. 将 overflow-hidden 和圆角移到 Link 或 LazyImage 上
+              <div className='md:w-5/12 w-full'> {/* 容器只负责宽度 */}
+                <Link href={post?.href} className='h-full w-full'> {/* Link 标签也需要撑满 */}
                   <LazyImage
                     priority={index === 1}
                     alt={post?.title}
                     src={post?.pageCoverThumbnail}
-                    className='h-full w-full object-cover' // 移除 group-hover, 因为外层已有
+                    // h-56 是移动端的高度，md:h-full 是PC端的高度
+                    // object-cover 确保图片不变形
+                    // rounded-lg 给图片一个圆角
+                    className='h-56 md:h-full w-full object-cover rounded-lg' 
                   />
                 </Link>
               </div>
