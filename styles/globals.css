@@ -367,12 +367,6 @@ img {
   如果您不希望整个网站都有这个动态背景，可以将这部分注释掉。
   这个背景是为了让玻璃效果更明显。
 */
-body {
-  background: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg")
-    center center;
-  background-size: 400px;
-  animation: moveBackground 60s linear infinite;
-}
 
 a {
   /* 
