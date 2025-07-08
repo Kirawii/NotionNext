@@ -62,18 +62,18 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               showSummary={showSummary}
             />
 
-            {/* 图片封面 - 完全保留，不做修改 */}
-            {/* 图片封面 - aspect-ratio 版本 */}
+            {/* 图片封面 */}
             {showPageCover && (
-              <div className='md:w-5/12 w-full'>
-                <Link href={post?.href}>
+              <div className='md:w-5/12 w-full overflow-hidden'> {/* 只控制宽度和溢出隐藏 */}
+                <Link href={post?.href} className='h-full block'> {/* Link 必须是块级元素且占满高度 */}
                   <LazyImage
                     priority={index === 1}
                     alt={post?.title}
                     src={post?.pageCoverThumbnail}
-                    // aspect-video 强制图片为16:9的视频比例
-                    // h-full 确保在 flex 容器中高度能被计算
-                    className='aspect-video h-full w-full object-cover rounded-lg'
+                    // 核心修改在这里！
+                    // 移除 aspect-video
+                    // 确保 h-full 和 w-full object-cover 存在
+                    className='h-full w-full object-cover'
                   />
                 </Link>
               </div>
