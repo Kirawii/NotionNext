@@ -29,7 +29,7 @@ const Header = props => {
   const router = useRouter()
   const [isOpen, changeShow] = useState(false)
   const showSearchButton = siteConfig('HEXO_MENU_SEARCH', false, CONFIG)
-  const showRandomButton = siteConfig('HEXO_MENU_RANDOM', false, CONFIG)
+  const showRandomButton = site-config('HEXO_MENU_RANDOM', false, CONFIG)
 
   const toggleMenuOpen = () => {
     changeShow(!isOpen)
@@ -55,38 +55,30 @@ const Header = props => {
   const topNavStyleHandler = useCallback(
     throttle(() => {
       const scrollS = window.scrollY
-      const nav = document.querySelector('#sticky-nav')
-      // 首页和文章页会有头图
+      // 主容器
+      const nav = document.querySelector('#sticky-nav-wrapper') 
+      // 液态玻璃的着色层，我们用它来控制背景
+      const tint = document.querySelector('#liquid-glass-tint') 
+      // 内容层，我们用它来控制文字颜色
+      const text = document.querySelector('#liquid-glass-text-content')
+      
       const header = document.querySelector('#header')
-      // 导航栏和头图是否重叠
-      const scrollInHeader =
-        header && (scrollS < 10 || scrollS < header?.clientHeight - 50) // 透明导航条的条件
-
-      // const textWhite = header && scrollInHeader
+      const scrollInHeader = header && (scrollS < 10 || scrollS < header?.clientHeight - 50)
 
       if (scrollInHeader) {
-        nav && nav.classList.replace('bg-white', 'bg-none')
-        nav && nav.classList.replace('border', 'border-transparent')
-        nav && nav.classList.replace('drop-shadow-md', 'shadow-none')
-        nav && nav.classList.replace('dark:bg-hexo-black-gray', 'transparent')
+        // 在头图内，设置为透明
+        tint && tint.classList.add('opacity-0')
+        text && text.classList.remove('text-black', 'dark:text-gray-200')
+        text && text.classList.add('text-white')
       } else {
-        nav && nav.classList.replace('bg-none', 'bg-white')
-        nav && nav.classList.replace('border-transparent', 'border')
-        nav && nav.classList.replace('shadow-none', 'drop-shadow-md')
-        nav && nav.classList.replace('transparent', 'dark:bg-hexo-black-gray')
+        // 不在头图内，恢复背景
+        tint && tint.classList.remove('opacity-0')
+        text && text.classList.remove('text-white')
+        text && text.classList.add('text-black', 'dark:text-gray-200')
       }
 
-      if (scrollInHeader) {
-        nav && nav.classList.replace('text-black', 'text-white')
-      } else {
-        nav && nav.classList.replace('text-white', 'text-black')
-      }
-
-      // 导航栏不在头图里，且页面向下滚动一定程度 隐藏导航栏
-      const showNav =
-        scrollS <= windowTop ||
-        scrollS < 5 ||
-        (header && scrollS <= header.clientHeight + 100)
+      const showNav = scrollS <= windowTop || scrollS < 5 || (header && scrollS <= header.clientHeight + 100)
+      
       if (!showNav) {
         nav && nav.classList.replace('top-0', '-top-20')
         windowTop = scrollS
@@ -147,37 +139,45 @@ const Header = props => {
       <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
       {/* 导航栏 */}
-      <div
-        id='sticky-nav'
-        style={{ backdropFilter: 'blur(3px)' }}
-        className={
-          'top-0 duration-300 transition-all  shadow-none fixed bg-none dark:bg-hexo-black-gray dark:text-gray-200 text-black w-full z-20 transform border-transparent dark:border-transparent'
-        }>
-        <div className='w-full flex justify-between items-center px-4 py-2'>
-          <div className='flex'>
-            <Logo {...props} />
-          </div>
+      <div id='sticky-nav-wrapper' className='fixed top-0 w-full z-20 duration-300 transition-all'>
+        <div className="liquidGlass-wrapper menu">
+          {/* 效果层 */}
+          <div className="liquidGlass-effect"></div>
+          {/* 我们给着色层一个ID，用来控制它的透明度 */}
+          <div id="liquid-glass-tint" className="liquidGlass-tint duration-300 transition-opacity"></div>
+          <div className="liquidGlass-shine"></div>
+          
+          {/* 内容层 */}
+          <div className="liquidGlass-text w-full">
+            {/* 我们给实际内容一个ID和样式，用来控制文字颜色 */}
+            <div id="liquid-glass-text-content" className="w-full flex justify-between items-center text-white duration-300 transition-colors">
+              <div className='flex'>
+                <Logo {...props} />
+              </div>
 
-          {/* 右侧功能 */}
-          <div className='mr-1 flex justify-end items-center '>
-            <div className='hidden lg:flex'>
-              {' '}
-              <MenuListTop {...props} />
+              {/* 右侧功能 */}
+              <div className='mr-1 flex justify-end items-center '>
+                <div className='hidden lg:flex'>
+                  {' '}
+                  <MenuListTop {...props} />
+                </div>
+                <div
+                  onClick={toggleMenuOpen}
+                  className='w-8 justify-center items-center h-8 cursor-pointer flex lg:hidden'>
+                  {isOpen ? (
+                    <i className='fas fa-times' />
+                  ) : (
+                    <i className='fas fa-bars' />
+                  )}
+                </div>
+                {showSearchButton && <SearchButton />}
+                {showRandomButton && <ButtonRandomPost {...props} />}
+              </div>
             </div>
-            <div
-              onClick={toggleMenuOpen}
-              className='w-8 justify-center items-center h-8 cursor-pointer flex lg:hidden'>
-              {isOpen ? (
-                <i className='fas fa-times' />
-              ) : (
-                <i className='fas fa-bars' />
-              )}
-            </div>
-            {showSearchButton && <SearchButton />}
-            {showRandomButton && <ButtonRandomPost {...props} />}
           </div>
         </div>
       </div>
+
 
       {/* 折叠侧边栏 */}
       <SideBarDrawer isOpen={isOpen} onClose={toggleSideBarClose}>
