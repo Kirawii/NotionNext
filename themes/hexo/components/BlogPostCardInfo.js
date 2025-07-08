@@ -18,8 +18,11 @@ export const BlogPostCardInfo = ({
   showSummary
 }) => {
   return (
+    // 核心修改在这里！
+    // 1. 我们给这个 article 添加了 text-black dark:text-white，以确保文字在玻璃背景上清晰可见。
+    // 2. 移除了所有与背景、边框相关的样式，让它完全“透明”。
     <article
-      className={`flex flex-col justify-between lg:p-6 p-4  ${showPageCover && !showPreview ? 'md:w-7/12 w-full md:max-h-60' : 'w-full'}`}>
+      className={`flex flex-col justify-between lg:p-6 p-4 text-black dark:text-white ${showPageCover && !showPreview ? 'md:w-7/12 w-full' : 'w-full'}`}>
       <div>
         <header>
           <h2>
@@ -27,9 +30,10 @@ export const BlogPostCardInfo = ({
             <Link
               href={post?.href}
               passHref
+              // 这里我们直接继承父组件的颜色，移除了 text-gray-600 等类
               className={`line-clamp-2 replace cursor-pointer text-2xl ${
                 showPreview ? 'text-center' : ''
-              } leading-tight font-normal text-gray-600 dark:text-gray-100 hover:text-indigo-700 dark:hover:text-indigo-400`}>
+              } leading-tight font-normal hover:text-indigo-400 dark:hover:text-indigo-400`}>
               {siteConfig('POST_TITLE_ICON') && (
                 <NotionIcon icon={post.pageIcon} />
               )}
@@ -42,17 +46,17 @@ export const BlogPostCardInfo = ({
             <div
               className={`flex mt-2 items-center ${
                 showPreview ? 'justify-center' : 'justify-start'
-              } flex-wrap dark:text-gray-500 text-gray-400 `}>
+              } flex-wrap dark:text-gray-400 text-gray-300 `}> {/* 调整了分类文字颜色 */}
               <Link
                 href={`/category/${post.category}`}
                 passHref
-                className='cursor-pointer font-light text-sm menu-link hover:text-indigo-700 dark:hover:text-indigo-400 transform'>
+                className='cursor-pointer font-light text-sm menu-link hover:text-indigo-400 dark:hover:text-indigo-400 transform'>
                 <i className='mr-1 far fa-folder' />
                 {post.category}
               </Link>
 
               <TwikooCommentCount
-                className='text-sm hover:text-indigo-700 dark:hover:text-indigo-400'
+                className='text-sm hover:text-indigo-400 dark:hover:text-indigo-400'
                 post={post}
               />
             </div>
@@ -61,14 +65,16 @@ export const BlogPostCardInfo = ({
 
         {/* 摘要 */}
         {(!showPreview || showSummary) && !post.results && (
-          <main className='line-clamp-2 replace my-3 text-gray-700  dark:text-gray-300 text-sm font-light leading-7'>
+          // 移除了 text-gray-700 等类，继承父组件颜色
+          <main className='line-clamp-2 replace my-3 text-sm font-light leading-7'>
             {post.summary}
           </main>
         )}
 
         {/* 搜索结果 */}
         {post.results && (
-          <p className='line-clamp-2 mt-4 text-gray-700 dark:text-gray-300 text-sm font-light leading-7'>
+          // 移除了 text-gray-700 等类，继承父组件颜色
+          <p className='line-clamp-2 mt-4 text-sm font-light leading-7'>
             {post.results.map((r, index) => (
               <span key={index}>{r}</span>
             ))}
@@ -85,7 +91,7 @@ export const BlogPostCardInfo = ({
 
       <div>
         {/* 日期标签 */}
-        <div className='text-gray-400 justify-between flex'>
+        <div className='text-gray-300 dark:text-gray-400 justify-between flex'> {/* 调整了日期文字颜色 */}
           {/* 日期 */}
           <Link
             href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
