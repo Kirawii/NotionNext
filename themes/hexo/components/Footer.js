@@ -35,7 +35,6 @@ const Footer = ({ title }) => {
         <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
           {title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}
         </h1>
-        <PoweredBy className='justify-center' />
       </span>
       <br />
     </footer>
