@@ -483,3 +483,15 @@ a {
     background-position: 0% -1000%;
   }
 }
+
+/* 主内容区背景样式 - 图片版 */
+.my-main-background {
+   background-image: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg");
+   background-size: cover; /* 让图片铺满 */
+   background-attachment: fixed; /* 滚动时图片不动，效果更好 */
+}
+
+/* 暗色模式下也可以用另一张图片 */
+.dark .my-main-background {
+   background-image: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg");
+}
