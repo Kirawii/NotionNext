@@ -29,7 +29,7 @@ const Header = props => {
   const router = useRouter()
   const [isOpen, changeShow] = useState(false)
   const showSearchButton = siteConfig('HEXO_MENU_SEARCH', false, CONFIG)
-  const showRandomButton = site-config('HEXO_MENU_RANDOM', false, CONFIG)
+  const showRandomButton = siteConfig('HEXO_MENU_RANDOM', false, CONFIG)
 
   const toggleMenuOpen = () => {
     changeShow(!isOpen)
