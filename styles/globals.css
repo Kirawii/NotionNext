@@ -484,14 +484,19 @@ a {
   }
 }
 
-/* 主内容区背景样式 - 图片版 */
-.my-main-background {
-   background-image: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg");
-   background-size: cover; /* 让图片铺满 */
-   background-attachment: fixed; /* 滚动时图片不动，效果更好 */
+.main-background-styling {
+   background-image: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg") !important;
+   background-size: cover !important;
+   background-attachment: fixed !important;
+   background-color: transparent !important; /* 关键：强制背景色为透明 */
 }
 
-/* 暗色模式下也可以用另一张图片 */
-.dark .my-main-background {
-   background-image: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg");
+/* 
+  暗色模式下的样式。
+  如果您希望暗色模式下也是同样的背景图，则可以忽略此部分。
+  如果希望是深色背景，请使用此规则。
+*/
+.dark .main-background-styling {
+   background-image: none !important;
+   background-color: #1a1a1a !important; /* 一个深邃的颜色 */
 }
