@@ -64,16 +64,15 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
 
             {/* 图片封面 */}
             {showPageCover && (
-              <div className='md:w-5/12 w-full overflow-hidden'> {/* 只控制宽度和溢出隐藏 */}
-                <Link href={post?.href} className='h-full block'> {/* Link 必须是块级元素且占满高度 */}
-                  <LazyImage
-                    priority={index === 1}
-                    alt={post?.title}
-                    src={post?.pageCoverThumbnail}
-                    // 核心修改在这里！
-                    // 移除 aspect-video
-                    // 确保 h-full 和 w-full object-cover 存在
-                    className='h-full w-full object-cover'
+              
+              <div className='md:w-5/12 w-full overflow-hidden relative'>
+                <div className='w-full pt-[56.25%] relative'> {/* 16:9 高度 = 9/16 = 56.25% */}
+                  <Link href={post?.href} className='absolute top-0 left-0 w-full h-full block'>
+                    <LazyImage
+                      priority={index === 1}
+                      alt={`封面图 - ${post?.title}`}
+                      src={post?.pageCoverThumbnail}
+                      className='w-full h-full object-cover'
                   />
                 </Link>
               </div>
