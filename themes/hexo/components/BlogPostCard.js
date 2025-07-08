@@ -16,7 +16,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
     pageCover &&
     !showPreview
 
-  // 卡片交错布局样式
+  // 交错卡片布局样式
   const cardLayoutClass =
     siteConfig('HEXO_POST_LIST_IMG_CROSSOVER', null, CONFIG) && index % 2 === 1
       ? 'md:flex-row-reverse'
@@ -24,15 +24,16 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
 
   return (
     <div
-      data-aos='fade-up'
-      data-aos-easing='ease-in-out'
-      data-aos-duration='500'
-      data-aos-once='false'
-      data-aos-anchor-placement='top-bottom'
-      className={`${siteConfig('HEXO_POST_LIST_COVER_HOVER_ENLARGE', null, CONFIG)
-        ? ' hover:scale-110 transition-all duration-150'
-        : ''
-        }`}
+      data-aos="fade-up"
+      data-aos-easing="ease-in-out"
+      data-aos-duration="500"
+      data-aos-once="false"
+      data-aos-anchor-placement="top-bottom"
+      className={`${
+        siteConfig('HEXO_POST_LIST_COVER_HOVER_ENLARGE', null, CONFIG)
+          ? 'hover:scale-110 transition-all duration-150'
+          : ''
+      }`}
     >
       {/* 液态玻璃结构 */}
       <div className="liquidGlass-wrapper dock">
@@ -40,13 +41,12 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
         <div className="liquidGlass-tint"></div>
         <div className="liquidGlass-shine"></div>
 
-        {/* 内容层 */}
         <div className="liquidGlass-text w-full">
           <div
             id="blog-post-card-inner"
             className={`w-full flex justify-between flex-col-reverse ${cardLayoutClass}`}
           >
-            {/* 文本信息组件 */}
+            {/* 卡片文字内容 */}
             <BlogPostCardInfo
               index={index}
               post={post}
@@ -55,19 +55,17 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               showSummary={showSummary}
             />
 
-            {/* 封面图 */}
+            {/* 封面图（固定高度写法） */}
             {showPageCover && (
-              <div className="md:w-5/12 w-full overflow-hidden relative">
-                <div className="w-full pt-[56.25%] relative"> {/* 16:9 高宽比 */}
-                  <Link href={post?.href} className="absolute top-0 left-0 w-full h-full block">
-                    <LazyImage
-                      priority={index === 1}
-                      alt={`封面图 - ${post?.title}`}
-                      src={pageCover}
-                      className="w-full h-full object-cover"
-                    />
-                  </Link>
-                </div>
+              <div className="md:w-5/12 w-full overflow-hidden">
+                <Link href={post?.href} className="block group">
+                  <LazyImage
+                    priority={index === 1}
+                    alt={`封面图 - ${post?.title}`}
+                    src={pageCover}
+                    className="h-56 w-full object-cover object-center group-hover:scale-110 duration-500"
+                  />
+                </Link>
               </div>
             )}
           </div>
